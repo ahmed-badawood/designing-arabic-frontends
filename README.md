@@ -34,6 +34,12 @@ A second TDD cycle made the skill **domain- and market-neutral**: adversarial au
 ## Install
 
 ```bash
+npx skills add ahmed-badawood/designing-arabic-frontends
+```
+
+Works with Claude Code, Cursor, Codex, and any other agent supported by the [skills CLI](https://github.com/vercel-labs/skills) — installs into the current project; add `-g` to install globally. Or install manually:
+
+```bash
 git clone https://github.com/ahmed-badawood/designing-arabic-frontends.git ~/.claude/skills/designing-arabic-frontends
 ```
 
