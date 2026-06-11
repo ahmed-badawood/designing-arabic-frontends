@@ -26,7 +26,8 @@ Tailwind's default `font-sans` is Latin-first; Arabic falls to inconsistent OS f
 
 Arabic ascenders, descenders, and diacritics need ~1.6+ line-height. Tailwind `text-sm` = 1.43, `text-xs` = 1.33, `leading-tight` = 1.25 — all too tight.
 
-- Arabic body, labels, hints, errors: add `leading-relaxed` (1.625) or `leading-6`/`leading-7`.
+- Arabic body, labels, hints, errors: add `leading-relaxed` (1.625) or `leading-7`. (`leading-6` only clears 1.6 on `text-sm` and smaller — on `text-base` it equals the 1.5 default.)
+- Display-size lines count too: the most-missed spot is the big `text-2xl` stat/amount line ending in an Arabic suffix («كم», «٪») — it keeps a sub-1.6 default leading unless you add one.
 - Never `leading-tight`/`leading-none` on Arabic; clipping risk doubles with `truncate` (overflow-hidden).
 
 ## 3. Digits, dates, currency: one deliberate policy
@@ -35,7 +36,7 @@ Both numeral systems are correct Arabic — Eastern ٠١٢٣ and Western 0123 �
 
 - **Default policy: the user's locale decides.** Pass the user's own locale (`navigator.language`, or the app's locale setting) to `Intl.NumberFormat`/`Intl.DateTimeFormat` and accept its digit choice. In an Arabic-only UI, prefer the app's locale setting when the browser locale isn't Arabic at all — otherwise dates render with non-Arabic month names. Pin a numbering system (`-u-nu-latn` or `-u-nu-arab`) only as a recorded, deliberate product-wide decision — centralized in one constant, never per-surface; per-user consistency is the requirement, cross-user uniformity is a product choice.
 - **The non-negotiable rule is consistency:** ONE numeral system per user per view — including validation messages, hints, and inline examples (mixing «٣ أحرف» in error copy with Western digits in the input's example is a real observed failure). Route every number through one shared formatter; never hand-build digit strings. Before adding a formatter, check for an existing shared util and match it.
-- **Calendar trap:** the `ar-*` **calendar** default varies by engine/ICU version (modern Node resolves Gregorian; older runtimes and some browsers resolve Hijri Umm al-Qura) — digit defaults don't vary; they're stable per locale. Pin the calendar you intend (`-u-ca-gregory`, or a Hijri calendar deliberately) — unless the user's tag already carries an explicit `-u-ca-` extension, which is a genuine user preference: honor it. `nu` and `ca` are independent extensions; setting one does not touch the other:
+- **Calendar trap:** the `ar-*` **calendar** default varies by engine/ICU version (modern Node resolves Gregorian; older runtimes and some browsers resolve Hijri Umm al-Qura) — digit defaults don't vary; they're stable per locale. Pin the calendar you intend (`-u-ca-gregory`, or a Hijri calendar deliberately) — unless the user's tag already carries an explicit `-u-ca-` extension, which is a genuine user preference: honor it. Hardcoded month or date labels («يناير», a date string in copy) are a calendar choice too — state Gregorian-vs-Hijri in a comment just as you would justify a `-u-ca-` pin. `nu` and `ca` are independent extensions; setting one does not touch the other:
   ```ts
   const loc = new Intl.Locale(userLocale);                 // e.g. navigator.language
   const tag = loc.calendar ? loc.toString()                // explicit user preference — keep it
@@ -66,7 +67,7 @@ Logical properties resolve against **each element's own computed direction**, no
 
 Use logical utilities even in an always-RTL app (survives future locales, reads as intent): `ms-/me-` not `ml-/mr-`, `ps-/pe-` not `pl-/pr-`, `start-/end-` not `left-/right-`, `text-start/text-end`, `rounded-s/e`, `border-s/e`. Prefer `gap-*` over `space-x-*` (else `space-x-reverse`).
 
-Audit the usual leaks even in clean code: asterisks/badges with `mr-1`, absolutely positioned adornments with `left-*`, inline `marginLeft` styles. Tailwind has no logical `translate-x` — a hover nudge toward "forward" is physical, so pair it with an `rtl:` variant (or a comment noting the component hardcodes RTL).
+Audit the usual leaks even in clean code: asterisks/badges with `mr-1`, absolutely positioned adornments with `left-*`, inline `marginLeft` styles. Tailwind has no logical `translate-x` — a hover nudge toward "forward" is physical, so write both halves explicitly: `group-hover:translate-x-1 rtl:group-hover:-translate-x-1` (or a comment noting the component hardcodes RTL) — an unpaired physical nudge is the observed failure.
 
 - **letter-spacing: never on Arabic** — it visibly breaks the connected script. Audit `tracking-*` on mixed digit+Arabic spans too: «250 كم» contains Arabic glyphs.
 - **No italics on Arabic** (no italic tradition; browsers fake-slant it). Use weight/color for emphasis.
