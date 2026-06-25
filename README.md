@@ -1,5 +1,9 @@
 # designing-arabic-frontends
 
+> **📦 Now part of the `arabic` plugin.** Easiest install:
+> `/plugin marketplace add ahmed-badawood/claude-plugins` → `/plugin install arabic`
+> (bundles this + `writing-eloquent-arabic`). This standalone repo is **archived/read-only**; the `npx skills add` command below still works but won't get updates.
+
 مهارة لـ Claude Code تعلّم الوكلاء بناء واجهات عربية صحيحة — اتجاه، خطوط، أرقام، ونص ثنائي الاتجاه.
 
 A [Claude Code](https://claude.com/claude-code) skill that teaches agents to build **correct Arabic-first frontends**: RTL layout, Arabic typography, Eastern/Western numerals, locale-aware date and currency formatting, bidirectional text, icon mirroring, and RTL-safe Tailwind.
