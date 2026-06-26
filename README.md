@@ -1,7 +1,7 @@
 # designing-arabic-frontends
 
-> **📦 Now part of the `arabic` plugin.** Easiest install:
-> `/plugin marketplace add ahmed-badawood/claude-plugins` → `/plugin install arabic`
+> **📦 Now part of the `sibawayh` plugin.** Easiest install:
+> `/plugin marketplace add ahmed-badawood/sibawayh` → `/plugin install sibawayh@sibawayh`
 > (bundles this + `writing-eloquent-arabic`). This standalone repo is **archived/read-only**; the `npx skills add` command below still works but won't get updates.
 
 مهارة لـ Claude Code تعلّم الوكلاء بناء واجهات عربية صحيحة — اتجاه، خطوط، أرقام، ونص ثنائي الاتجاه.
